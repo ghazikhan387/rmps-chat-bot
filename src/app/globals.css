@@ -1,26 +1,85 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@plugin "tailwindcss-animate";
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+@custom-variant dark (&:is(.dark *));
+
+@theme {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* Neo-Geo Theme Variables */
+  --color-neo-bg: var(--neo-bg);
+  --color-neo-surface: var(--neo-surface);
+  --color-neo-border: var(--neo-border);
+  --color-neo-primary: var(--neo-primary);
+  --color-neo-secondary: var(--neo-secondary);
+  --color-neo-accent: var(--neo-accent);
+  --color-neo-muted: var(--neo-muted);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  /* Light mode */
+  --background: #FDFDFD;
+  --foreground: #111111;
+  --neo-bg: #FDFDFD;
+  --neo-surface: #F5F5F5;
+  --neo-border: #E0E0E0;
+  --neo-primary: #004DFF; /* Sharp blue */
+  --neo-secondary: #FF2E00; /* Vibrant orange/red */
+  --neo-accent: #00F0FF; /* Electric blue accent */
+  --neo-muted: #888888;
 }
 
+.dark {
+  --background: #0A0A0C;
+  --foreground: #F0F0F0;
+  --neo-bg: #0A0A0C;
+  --neo-surface: #141416;
+  --neo-border: #2A2A2A;
+  --neo-primary: #0055FF;
+  --neo-secondary: #FF3300;
+  --neo-accent: #00FFFF;
+  --neo-muted: #888888;
+}
+
+/* Base geometric styles */
 body {
-  background: var(--background);
+  background-color: var(--neo-bg);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), sans-serif;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Grid background utility */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, var(--neo-border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--neo-border) 1px, transparent 1px);
+  background-position: center top;
+}
+
+.dark .bg-grid-pattern {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+@layer utilities {
+  .neo-box {
+    @apply border border-neo-border bg-neo-surface relative overflow-hidden;
+  }
+  
+  .neo-box::before {
+    content: '';
+    @apply absolute top-0 left-0 w-2 h-2 bg-neo-primary;
+  }
+  
+  .neo-box::after {
+    content: '';
+    @apply absolute bottom-0 right-0 w-2 h-2 bg-neo-accent;
+  }
 }
